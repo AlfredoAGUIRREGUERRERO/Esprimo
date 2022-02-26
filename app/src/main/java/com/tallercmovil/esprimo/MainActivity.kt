@@ -4,10 +4,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
+import androidx.appcompat.app.AppCompatDelegate
 import com.tallercmovil.esprimo.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -27,6 +25,30 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_toolbar, menu)
+
+        if(menu != null){
+            val item = menu.findItem(R.id.opc_darkmode)
+            val mySwitch = item.actionView.findViewById<Switch>(R.id.switch_darkmode)
+
+            //val mySwitch = menu.findItem(R.id.opc_darkmode).actionView.findViewById<Switch>(R.id.switch_darkmode)
+
+            if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES){
+                mySwitch.toggle()
+                binding.cl.setBackgroundResource(R.drawable.back2dark)
+            }else{
+                binding.cl.setBackgroundResource(R.drawable.back2)
+            }
+
+            mySwitch.setOnCheckedChangeListener { compoundButton, b ->
+                //b es un boolean que determina si el switch está activo o no
+                if(b){
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                }else{
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                }
+            }
+        }
+
         return super.onCreateOptionsMenu(menu)
     }
 
